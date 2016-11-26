@@ -1,18 +1,168 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap Sample</title>
+    <meta name=”description” content="JUN YAMAMOTOがテックアカデミーで学んだすべてを表現するための自己紹介ページです" />
+    <meta name="keywords" content="ポートフォリオ,bootstrap,ruby,github,プログラミング,テックアカデミー">
+    <title>JUN YAMAMOTO PORTFOLIO</title>
     <!-- BootstrapのCSS読み込み -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
     <!-- jQuery読み込み -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- BootstrapのJS読み込み -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
-  </body>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarEexample">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">JYP</a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarEexample">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#introduction"><i class="fa fa-chevron-circle-right"></i>&nbsp;About me</a>
+                        </li>
+                        <li><a href="#appli"><i class="fa fa-chevron-circle-right"></i>&nbsp;制作したアプリ一覧</a>
+                        </li>
+                        <li><a href="#contact"><i class="fa fa-chevron-circle-right"></i>&nbsp;Contact me</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="jumbotron">
+
+            <div class="container">
+                <h1><span>Jun Yamamoto's Portfolio</span></h1>
+                <p><span>私が制作したWEBアプリケーションを紹介します。</span>
+                </p>
+                <a href="#appli" class="btn"><i class="fa fa-chevron-circle-right"></i>&nbsp;制作したアプリ一覧</a>
+            </div>
+        </div>
+
+    </header>
+
+    <section id="introduction" class="section introduction">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <div class="intro-content">
+                        <h1>デザインの半分は<br>優しさでできています</h1>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-6">
+                    <div class="intro-content">
+                        <p>デザインをしていると、優しさや心配りがない人には向かない職業だなあと思うことがあります。</p>
+                        <p>わかりにくいメニュー。見づらい色。読みにくいレイアウト。押しにくいボタン。</p>
+                        <p>それらを優しさで解決するのがデザインの役目だと思っています。</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="intro-content">
+                        <h4>私のスキル</h4>
+                        <ul>
+                            <li> - photoshop</li>
+                            <li> - illustrator</li>
+                            <li> - wordpress開発</li>
+                            <li> - 子育て</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="appli" class="appli section no-padding">
+        <h2>制作したアプリ一覧</h2>
+        <div class="container-fluid">
+            <div class="row no-gutter">
+                <div class="col-lg-3 col-md-3 col-sm-3 appli">
+                    <a href="#" class="appli-box"> <img src="images/appli01.jpg" alt="メッセージボード">
+                        <div class="overlay">
+                            <div class="overlay-caption">
+                                <p>メッセージボード</p>
+                            </div>
+                        </div>
+                        <!-- overlay -->
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 appli">
+                    <a href="#" class="appli-box"><img src="images/appli02.jpg" alt="twitterクローン">
+                        <div class="overlay">
+                            <div class="overlay-caption">
+                                <p>twitterクローン</p>
+                            </div>
+                        </div>
+                        <!-- overlay -->
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 appli">
+                    <a href="#" class="appli-box"> <img src="images/appli03.jpg" alt="モノリスト">
+                        <div class="overlay">
+                            <div class="overlay-caption">
+                                <p>モノリスト</p>
+                            </div>
+                        </div>
+                        <!-- overlay -->
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 appli">
+                    <a href="#" class="appli-box"><img src="images/appli04.jpg" alt="オリジナルサービス">
+                        <div class="overlay">
+                            <div class="overlay-caption">
+                                <p>オリジナルサービス</p>
+                            </div>
+                        </div>
+                        <!-- overlay -->
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="col-md-4">
+                <h4>Contact Me</h4>
+                <p>ADDRESS: hogehogehoge 1-1-1
+                    <br> Email: <a href="mailto:hoge@hogehoge.com">hoge@hogehoge.com</a>
+                    <br> GitHub: <a href="https://github.com/jun-yamamoto">https://github.com/jun-yamamoto</a>
+                </p>
+            </div>
+            <div class="col-md-3">
+                <h4>SNS</h4>
+                <ul class="footer-share">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-google-plus"></i></a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-instagram"></i></a>
+                </ul>
+            </div>
+            <div class="col-md-5">
+                <h4>Copyright</h4>
+                <p>© 2016 JUN YAMAMOTO All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
 </html>
