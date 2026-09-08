@@ -1,0 +1,187 @@
+@charset "UTF-8";
+/* ==================================================================
+   記事 / 固定ページ / アーカイブ / 検索 / 404
+================================================================== */
+
+.page-hero{
+  position:relative; overflow:hidden;
+  background:var(--navy-deep); color:#fff;
+  padding:88px 24px 72px;
+  text-align:center;
+}
+.page-hero::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.page-hero .eyebrow{
+  font-family:'Inter', sans-serif; font-size:10px; letter-spacing:.45em;
+  color:var(--gold); margin-bottom:18px;
+}
+.page-hero h1{
+  font-family:'Zen Old Mincho', serif;
+  font-size:26px; line-height:1.6; letter-spacing:.08em;
+}
+.page-hero .meta{
+  margin-top:18px;
+  font-family:'Inter', sans-serif; font-size:11px; letter-spacing:.24em;
+  color:rgba(255,255,255,.55);
+  display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap;
+}
+@media (min-width:768px){
+  .page-hero{ padding:112px 24px 88px; }
+  .page-hero h1{ font-size:36px; }
+}
+
+.content-area{ padding:64px 24px 96px; }
+@media (min-width:768px){ .content-area{ padding:88px 24px 128px; } }
+
+.entry-thumb{ margin-bottom:40px; }
+.entry-thumb img{ width:100%; height:auto; box-shadow:0 25px 50px -20px rgba(0,0,0,.4); }
+
+.entry-content{ font-size:15px; line-height:2.1; }
+.entry-content > * + *{ margin-top:1.6em; }
+.entry-content h2{
+  font-family:'Zen Old Mincho', serif; font-size:24px; line-height:1.6; letter-spacing:.06em;
+  margin-top:2.4em; padding-bottom:14px; border-bottom:1px solid rgba(14,13,16,.15);
+}
+.entry-content h3{
+  font-family:'Zen Old Mincho', serif; font-size:19px; line-height:1.7; letter-spacing:.06em;
+  margin-top:2.2em; padding-left:14px; border-left:3px solid var(--gold);
+}
+.entry-content h4{ font-family:'Zen Old Mincho', serif; font-size:17px; margin-top:2em; }
+.entry-content p{ margin-top:1.6em; }
+.entry-content a{ color:var(--navy); text-decoration:underline; text-underline-offset:3px; }
+.entry-content a:hover{ color:var(--seal); }
+.entry-content ul, .entry-content ol{ padding-left:1.4em; }
+.entry-content ul li{ list-style:disc; margin-bottom:.6em; }
+.entry-content ol li{ list-style:decimal; margin-bottom:.6em; }
+.entry-content blockquote{
+  background:rgba(0,0,0,.03); border-left:3px solid var(--gold);
+  padding:20px 24px; font-size:14px;
+}
+.entry-content img{ height:auto; }
+.entry-content figure figcaption{
+  font-family:'Inter', sans-serif; font-size:11px; color:#78716c; margin-top:8px;
+}
+.entry-content table{ width:100%; font-size:14px; }
+.entry-content th, .entry-content td{ border:1px solid rgba(14,13,16,.15); padding:10px 12px; }
+.entry-content th{ background:rgba(0,0,0,.04); font-weight:700; }
+.entry-content .wp-block-table{ overflow-x:auto; }
+
+.entry-foot{
+  margin-top:64px; padding-top:32px; border-top:1px solid rgba(14,13,16,.15);
+  display:flex; flex-wrap:wrap; gap:12px; align-items:center;
+}
+.entry-foot .cat-link{
+  font-family:'Inter', sans-serif; font-size:10px; letter-spacing:.3em;
+  border:1px solid rgba(14,13,16,.25); padding:6px 12px;
+}
+.entry-foot .cat-link:hover{ border-color:var(--seal); color:var(--seal); }
+
+.post-nav{
+  display:grid; gap:16px; margin-top:48px;
+}
+@media (min-width:768px){ .post-nav{ grid-template-columns:repeat(2,1fr); } }
+.post-nav a{
+  display:block; padding:20px 24px; background:var(--paper-2);
+  border:1px solid rgba(14,13,16,.1); transition:border-color .2s;
+}
+.post-nav a:hover{ border-color:var(--gold); }
+.post-nav .dir{ font-family:'Inter', sans-serif; font-size:10px; letter-spacing:.3em; color:var(--gold-2); }
+.post-nav .ttl{ font-family:'Zen Old Mincho', serif; font-size:15px; line-height:1.7; margin-top:6px; }
+.post-nav .next{ text-align:right; }
+
+/* ---------- 一覧 ---------- */
+.entry-list{ display:grid; gap:40px; }
+@media (min-width:768px){ .entry-list{ grid-template-columns:repeat(3,1fr); gap:48px 32px; } }
+.entry-card .thumb{ overflow:hidden; height:220px; margin-bottom:18px; background:var(--paper-2); }
+.entry-card .thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .7s ease; }
+.entry-card:hover .thumb img{ transform:scale(1.05); }
+.entry-card .cat{
+  font-family:'Inter', sans-serif; font-size:10px; letter-spacing:.3em; color:var(--gold-2);
+}
+.entry-card h2{
+  font-family:'Zen Old Mincho', serif; font-size:17px; line-height:1.7;
+  letter-spacing:.05em; margin:8px 0 10px;
+}
+.entry-card .excerpt{ font-size:13px; line-height:1.9; color:#57534e; }
+.entry-card .date{
+  display:block; margin-top:12px;
+  font-family:'Inter', sans-serif; font-size:10px; letter-spacing:.24em; color:#78716c;
+}
+
+.no-posts{ text-align:center; padding:64px 0; font-size:15px; color:#57534e; }
+
+/* ---------- ページャ ---------- */
+.pagination{ margin-top:64px; display:flex; justify-content:center; }
+.pagination .nav-links{ display:flex; flex-wrap:wrap; gap:8px; }
+.pagination .page-numbers{
+  display:flex; align-items:center; justify-content:center;
+  min-width:40px; height:40px; padding:0 12px;
+  font-family:'Inter', sans-serif; font-size:12px; letter-spacing:.1em;
+  border:1px solid rgba(14,13,16,.2); transition:background-color .2s, color .2s;
+}
+.pagination .page-numbers:hover,
+.pagination .page-numbers.current{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+/* ---------- 検索フォーム ---------- */
+.search-form{ display:flex; max-width:420px; margin:0 auto; }
+.search-form input[type="search"]{
+  flex:1; border:1px solid rgba(14,13,16,.25); background:#fff; padding:10px 14px; font-size:14px;
+}
+.search-form button{
+  background:var(--ink); color:#fff; padding:10px 20px;
+  font-family:'Inter', sans-serif; font-size:11px; letter-spacing:.25em;
+}
+
+/* ---------- 404 ---------- */
+.error-404{ text-align:center; padding:96px 24px 120px; }
+.error-404 .code{ font-family:'Cormorant Garamond', serif; font-style:italic; font-size:96px; color:var(--gold); line-height:1; }
+.error-404 h1{ font-family:'Zen Old Mincho', serif; font-size:22px; letter-spacing:.1em; margin:16px 0 24px; }
+.error-404 p{ font-size:14px; color:#57534e; margin-bottom:32px; }
+
+/* ---------- コメント ---------- */
+.comments-area{
+  margin-top:72px; padding-top:40px;
+  border-top:1px solid rgba(14,13,16,.15);
+}
+.comments-title,
+.comments-area .comment-reply-title{
+  font-family:'Zen Old Mincho', serif; font-size:19px; letter-spacing:.08em; margin-bottom:24px;
+}
+.comment-list{ margin-bottom:48px; }
+.comment-list li{ list-style:none; }
+.comment-list .comment-body{
+  padding:20px 0; border-bottom:1px solid rgba(14,13,16,.1);
+}
+.comment-list .comment-author{ display:flex; align-items:center; gap:10px; font-size:14px; }
+.comment-list .comment-author img{ border-radius:50%; }
+.comment-list .comment-metadata{
+  font-family:'Inter', sans-serif; font-size:10px; letter-spacing:.2em; color:#78716c; margin:6px 0 12px;
+}
+.comment-list .children{ padding-left:24px; }
+.no-comments{ font-size:14px; color:#57534e; }
+
+.comment-form p{ margin-bottom:16px; }
+.comment-form label{
+  display:block; font-size:13px; margin-bottom:6px; letter-spacing:.06em;
+}
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"],
+.comment-form textarea{
+  width:100%; max-width:100%; background:#fff;
+  border:1px solid rgba(14,13,16,.25); padding:10px 12px; font-size:14px;
+}
+.comment-form textarea{ min-height:140px; resize:vertical; }
+.comment-form .comment-notes,
+.comment-form .comment-form-cookies-consent label{ font-size:12px; color:#57534e; }
+.comment-form .comment-form-cookies-consent{ display:flex; align-items:center; gap:8px; }
+.comment-form .comment-form-cookies-consent input{ margin:0; }
+.comment-form .comment-form-cookies-consent label{ margin:0; }
+.comment-form .form-submit input[type="submit"]{
+  background:var(--ink); color:#fff; border:0; cursor:pointer;
+  font-family:'Inter', sans-serif; font-size:11px; letter-spacing:.35em; padding:13px 32px;
+  transition:background-color .25s;
+}
+.comment-form .form-submit input[type="submit"]:hover{ background:var(--navy); }

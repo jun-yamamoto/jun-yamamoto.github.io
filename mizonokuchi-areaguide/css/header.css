@@ -1,0 +1,207 @@
+@charset "UTF-8";
+/* ==================================================================
+   header / global navigation
+   - リンクはページ内アンカーではなく「外観 > メニュー > ヘッダーナビ」の
+     メニュー項目（＝各記事）へ飛びます
+   - SP はチェックボックス方式のドロワー（JS 不要）
+================================================================== */
+
+.site-header{
+  position:sticky; top:0; z-index:90;
+  width:100%;
+  background:var(--ink);
+  color:#fff;
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+/* 管理バー表示時 */
+.admin-bar .site-header{ top:32px; }
+@media screen and (max-width:782px){ .admin-bar .site-header{ top:46px; } }
+
+/* ドロワー制御用チェックボックス（画面には出さない） */
+.menu-navibtn{
+  position:absolute; width:1px; height:1px; opacity:0;
+  overflow:hidden; clip:rect(1px,1px,1px,1px); pointer-events:none;
+}
+
+.navi-inner{
+  max-width:var(--wrap);
+  margin-inline:auto;
+  height:var(--header-h-sp);
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+/* ---------- ロゴ ---------- */
+.menu-left{ flex-shrink:0; margin-right:auto; }
+.site-logo{ display:flex; align-items:center; gap:12px; }
+.site-logo svg{ width:30px; height:30px; flex-shrink:0; }
+.site-logo img{ max-height:34px; width:auto; }
+.site-logo-txt{ line-height:1.15; }
+.site-logo-en{
+  font-family:'Cormorant Garamond', serif;
+  font-size:14px; letter-spacing:.24em; white-space:nowrap;
+}
+.site-logo-jp{
+  font-family:'Shippori Mincho', serif;
+  font-size:9px; letter-spacing:.4em; color:rgba(255,255,255,.6); margin-top:1px;
+}
+
+/* ---------- ハンバーガー ---------- */
+.navibtn{
+  position:relative; z-index:2;
+  display:block; width:34px; height:24px; flex-shrink:0; cursor:pointer;
+}
+.navibtn > span{
+  position:absolute; top:50%; left:0; right:0; height:1.5px;
+  background:#fff; transition:background-color .2s;
+}
+.navibtn::before,
+.navibtn::after{
+  content:""; position:absolute; left:0; right:0; height:1.5px; background:#fff;
+  transition:transform .28s ease, top .28s ease;
+}
+.navibtn::before{ top:4px; }
+.navibtn::after { top:auto; bottom:4px; }
+.navibtn > span > span{
+  position:absolute; width:1px; height:1px; overflow:hidden;
+  clip:rect(1px,1px,1px,1px); clip-path:inset(50%); white-space:nowrap;
+}
+.menu-navibtn:checked ~ .navi .navibtn > span{ background:transparent; }
+.menu-navibtn:checked ~ .navi .navibtn::before{ top:50%; transform:translateY(-50%) rotate(45deg); }
+.menu-navibtn:checked ~ .navi .navibtn::after { bottom:auto; top:50%; transform:translateY(-50%) rotate(-45deg); }
+.navibtn:focus-visible{ outline:2px solid var(--gold); outline-offset:4px; }
+
+/* ---------- 右端メタ ---------- */
+.navi-meta{
+  display:none; align-items:center; gap:12px; flex-shrink:0;
+  font-family:'Inter', sans-serif; font-size:10px; letter-spacing:.18em;
+  color:rgba(255,255,255,.5);
+}
+.navi-meta .bar{ display:block; width:1px; height:12px; background:rgba(255,255,255,.2); }
+
+/* ==================== SP / タブレット：ドロワー ====================
+   メニューが 7 項目あるため、横並びで収まらない 1279px 以下はドロワーにする
+================================================================== */
+@media (max-width:1279px){
+  .menu-wrap{
+    position:fixed; inset:0 0 0 auto;
+    width:min(84vw, 360px);
+    padding:calc(var(--header-h-sp) + 28px) 28px 48px;
+    background:var(--ink-2);
+    transform:translateX(100%);
+    transition:transform .35s cubic-bezier(.4,0,.2,1);
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    z-index:1;
+    border-left:1px solid rgba(255,255,255,.1);
+  }
+  .menu-navibtn:checked ~ .navi .menu-wrap{ transform:translateX(0); }
+
+  .navi-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.6);
+    opacity:0; visibility:hidden; transition:opacity .35s, visibility .35s;
+    cursor:pointer;
+  }
+  .menu-navibtn:checked ~ .navi .navi-overlay{ opacity:1; visibility:visible; }
+
+  .menu{ display:flex; flex-direction:column; }
+  .menu > li{ border-bottom:1px solid rgba(255,255,255,.1); }
+  .menu > li > a{
+    display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+    padding:16px 2px;
+    color:rgba(255,255,255,.85);
+    transition:color .2s;
+  }
+  .menu > li > a:hover,
+  .menu > li.current-menu-item > a{ color:var(--gold); }
+  .nav-num{
+    font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:15px; color:var(--gold); min-width:24px;
+  }
+  .nav-en{ font-family:'Inter', sans-serif; font-size:11px; letter-spacing:.28em; }
+  .nav-jp{
+    font-family:'Shippori Mincho', serif; font-size:11px; letter-spacing:.2em;
+    color:rgba(255,255,255,.5); width:100%; padding-left:34px;
+  }
+  .nav-sep{ display:none; }
+
+  /* SP のサブメニューは開いたまま表示 */
+  .menu .sub-menu{ padding:0 0 12px 34px; }
+  .menu .sub-menu a{
+    display:block; padding:8px 0;
+    font-family:'Shippori Mincho', serif; font-size:12px; color:rgba(255,255,255,.6);
+  }
+  .menu .sub-menu a:hover{ color:var(--gold); }
+
+  .navi-meta{ display:flex; margin-top:32px; }
+}
+
+/* ==================== PC：横並び ==================== */
+@media (min-width:1280px){
+  .navi-inner{ height:var(--header-h); padding:0 20px; }
+  .navibtn{ display:none; }
+  .navi-overlay{ display:none; }
+
+  .menu-left{ margin-right:0; }
+  .menu-left::after{
+    content:""; display:block;
+  }
+  .site-logo svg{ width:34px; height:34px; }
+  .site-logo-en{ font-size:15px; }
+
+  .menu-wrap{
+    flex:1; display:flex; align-items:center; gap:24px; min-width:0;
+    border-left:1px solid rgba(255,255,255,.2);
+    margin-left:8px; padding-left:24px;
+  }
+  .menu{
+    flex:1; display:flex; align-items:center; gap:clamp(16px, 2.2vw, 36px);
+    min-width:0; overflow-x:auto; white-space:nowrap;
+    scrollbar-width:none;
+  }
+  .menu::-webkit-scrollbar{ display:none; }
+  .menu > li{ position:relative; flex-shrink:0; }
+  .menu > li > a{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'Inter', sans-serif; font-size:10px; letter-spacing:.28em;
+    color:rgba(255,255,255,.7);
+    padding:8px 0;
+    transition:color .2s;
+  }
+  .menu > li > a:hover,
+  .menu > li.current-menu-item > a,
+  .menu > li.current-menu-parent > a,
+  .menu > li.current-page-ancestor > a{ color:var(--gold); }
+  .nav-num{ font-family:'Inter', sans-serif; }
+  .nav-sep{ opacity:.5; }
+  .nav-jp{ display:none; }
+
+  /* サブメニュー（任意） */
+  .menu .sub-menu{
+    position:absolute; top:100%; left:0; min-width:220px;
+    background:var(--ink-2); border:1px solid rgba(255,255,255,.12);
+    padding:8px 0; opacity:0; visibility:hidden; transform:translateY(6px);
+    transition:opacity .2s, visibility .2s, transform .2s; z-index:20;
+  }
+  .menu > li:hover > .sub-menu,
+  .menu > li:focus-within > .sub-menu{ opacity:1; visibility:visible; transform:translateY(0); }
+  .menu .sub-menu a{
+    display:block; padding:9px 18px;
+    font-family:'Shippori Mincho', serif; font-size:12px; letter-spacing:.1em;
+    color:rgba(255,255,255,.75); white-space:nowrap;
+  }
+  .menu .sub-menu a:hover{ color:var(--gold); background:rgba(255,255,255,.04); }
+
+  /* メニューが 7 項目あるため、右端メタは十分広いときだけ出す */
+  .navi-meta{ display:none; }
+}
+/* 右端メタは、メニューを圧迫しない幅になってから表示する */
+@media (min-width:1560px){
+  .navi-inner{ max-width:1560px; }
+  .navi-meta{ display:flex; }
+}
+
+/* ドロワーが開いている間は背面スクロールを止める（js/common.js が付与） */
+body.is-nav-open{ overflow:hidden; }

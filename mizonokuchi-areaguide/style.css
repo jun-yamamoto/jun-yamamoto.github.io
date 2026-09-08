@@ -1,0 +1,26 @@
+@charset "UTF-8";
+/*
+Theme Name: MIZONOKUCHI AREA GUIDE
+Theme URI: https://tokyo.itot.jp/
+Description: 溝の口エリアガイド用テーマ。itot 系サイト（例：https://tokyo.itot.jp/kugayama/）と同じヘッダー／フッター構成を踏襲し、ヘッダーナビはページ内アンカーではなく WordPress のメニュー（外観 > メニュー > 「ヘッダーナビ」）から各記事へリンクします。
+Author: MIZONOKUCHI AREA GUIDE
+Version: 1.0.0
+Requires at least: 5.9
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: mizonokuchi
+Tags: one-column, custom-menu, featured-images, translation-ready
+*/
+
+/*
+ * 実際のスタイルは読み込み順を明示するため css/ 配下に分割しています。
+ *   css/reset.css   … リセット
+ *   css/cmn.css     … 変数・タイポグラフィ・共通パーツ
+ *   css/header.css  … ヘッダー／グローバルナビ（レスポンシブ）
+ *   css/footer.css  … フッター（itot 共通フッター）
+ *   css/front.css   … フロントページ
+ *   css/article.css … 記事・固定ページ・アーカイブ
+ * 読み込みは functions.php の mzk_enqueue_assets() で行います。
+ */
