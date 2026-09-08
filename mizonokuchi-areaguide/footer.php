@@ -75,7 +75,13 @@ $mzk_has_pr   = ('' !== trim($mzk_pr_title) || '' !== trim($mzk_pr_url));
 			</li>
 			<li class="hover"> <a href="<?php echo esc_url(mzk_footer_option('mzk_privacy_url')); ?>" target="_blank" rel="noopener"><?php esc_html_e('プライバシーポリシー', 'mizonokuchi'); ?></a> </li>
 			<li class="hover"> <a href="<?php echo esc_url(mzk_footer_option('mzk_company_url')); ?>" target="_blank" rel="noopener"><?php esc_html_e('運営会社', 'mizonokuchi'); ?></a> </li>
-			<li class="hover"> <a href="<?php echo esc_url(mzk_footer_option('mzk_itot_url')); ?>" target="_blank" rel="noopener"> <img src="<?php echo esc_url(mzk_img('img/footlogo-white.svg')); ?>" alt="powered by itot" width="52" height="16" loading="lazy" decoding="async" /> </a> </li>
+			<li class="hover"> <a href="<?php echo esc_url(mzk_footer_option('mzk_itot_url')); ?>" target="_blank" rel="noopener">
+					<?php if (mzk_itot_logo_uri()) : ?>
+						<img src="<?php echo esc_url(mzk_itot_logo_uri()); ?>" alt="powered by itot" loading="lazy" decoding="async" />
+					<?php else : ?>
+						powered by itot
+					<?php endif; ?>
+				</a> </li>
 		</ul>
 	</div>
 </div>

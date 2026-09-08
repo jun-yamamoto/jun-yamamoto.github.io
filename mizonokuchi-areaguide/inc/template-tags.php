@@ -302,6 +302,31 @@ function mzk_post_thumb($post, $fallback, $size = 'large') {
 	return mzk_img($fallback);
 }
 
+/**
+ * フッターの itot ロゴ URL を返す。
+ *
+ * 優先順:
+ *   1. カスタマイザー「itot ロゴ画像」
+ *   2. テーマ内の img/footlogo-white.png（正式なロゴを置く場所）
+ *   3. テーマ内の img/footlogo-white.svg（仮のロゴ）
+ *
+ * @return string
+ */
+function mzk_itot_logo_uri() {
+	$custom = (string) get_theme_mod('mzk_itot_logo', '');
+	if ($custom) {
+		return $custom;
+	}
+
+	foreach (array('img/footlogo-white.png', 'img/footlogo-white.svg') as $rel) {
+		if (file_exists(get_theme_file_path($rel))) {
+			return get_theme_file_uri($rel);
+		}
+	}
+
+	return '';
+}
+
 /* ==================================================================
    ロゴ
 ================================================================== */

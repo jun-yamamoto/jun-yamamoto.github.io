@@ -79,8 +79,20 @@ wp-content/themes/mizonokuchi-areaguide/
 - PR 枠の見出し／キャッチコピー／物件名／説明文／画像／リンク先 URL／ボタン文言
 - コピーライト表記
 - お問い合わせ・プライバシーポリシー・運営会社・itot の各 URL
+- itot ロゴ画像
 
 物件名とリンク先 URL の**両方が空**のときは PR 枠ごと非表示になります。
+
+#### itot ロゴの差し替え
+
+コピーライトバーは黒背景なので、**背景が透明・白のロゴ**を使います。差し替え方法は 2 通りです。
+
+1. `img/footlogo-white.png` としてテーマ内に置く（推奨）
+2. 「外観 > カスタマイズ > フッター > itot ロゴ画像」でメディアライブラリから指定する
+
+優先順は **カスタマイザー → `img/footlogo-white.png` → `img/footlogo-white.svg`（仮）** です。
+表示高さは CSS で 16px 固定・幅は自動なので、縦横比は問いません。
+高解像度ディスプレイでぼやけないよう、**高さ 32px 以上**の画像を用意してください。
 
 ### 2-4. トップページ
 
@@ -142,7 +154,7 @@ mizonokuchi-areaguide/
 
 | ファイル | 内容 |
 | --- | --- |
-| `img/footlogo-white.svg` | itot ロゴの仮版。正式なロゴ画像に差し替えてください |
+| `img/footlogo-white.svg` | itot ロゴの仮版。`img/footlogo-white.png` を置くか、カスタマイザーで指定すると差し替わります |
 | `image/GOURMET/**` | 添付 zip に写真が無かったため空です（`image/GOURMET/README.txt` 参照） |
 | `image/pr/01_dummy.jpg`, `image/MAZAKA/01_dummy.jpg` | ダミー画像 |
 | `image/map/area-map.jpg` | エリアマップ（未設置ならダミー SVG を表示） |

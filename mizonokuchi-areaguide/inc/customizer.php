@@ -116,6 +116,26 @@ function mzk_customize_register($wp_customize) {
 		)
 	);
 
+	// フッターの itot ロゴ。
+	$wp_customize->add_setting(
+		'mzk_itot_logo',
+		array(
+			'default'           => '',
+			'sanitize_callback' => 'esc_url_raw',
+		)
+	);
+	$wp_customize->add_control(
+		new WP_Customize_Image_Control(
+			$wp_customize,
+			'mzk_itot_logo',
+			array(
+				'label'       => __('itot ロゴ画像（フッター）', 'mizonokuchi'),
+				'description' => __('黒背景に載るため、背景が透明で白のロゴを指定してください。未設定の場合はテーマ内の img/footlogo-white.png → img/footlogo-white.svg の順に使われます。', 'mizonokuchi'),
+				'section'     => 'mzk_footer',
+			)
+		)
+	);
+
 	// トップページ：動画。
 	$wp_customize->add_section(
 		'mzk_front',
