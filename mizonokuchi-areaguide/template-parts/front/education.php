@@ -2,6 +2,10 @@
 /**
  * トップ：06 EDUCATION
  *
+ * バナー画像 1 枚を記事へのリンクにするだけの構成。
+ * 画像は「外観 > カスタマイズ > トップページ > EDUCATION バナー画像」か、
+ * テーマ内の image/EDUCATION/banner.png（または .jpg / .webp）を置いて差し替える。
+ *
  * @package mizonokuchi
  */
 
@@ -9,13 +13,12 @@ defined('ABSPATH') || exit;
 
 $mzk_post  = mzk_section_post('education-interview');
 $mzk_url   = mzk_link('education-interview', 'post', mzk_link('education', 'archive', home_url('/')));
-$mzk_thumb = mzk_post_thumb($mzk_post, 'image/EDUCATION/01.jpg');
-$mzk_title = $mzk_post ? get_the_title($mzk_post) : '';
+$mzk_alt   = $mzk_post ? get_the_title($mzk_post) : '高津区で、子育てするということ。';
 ?>
 <section id="education" class="section section--gold">
 	<div class="bg-dot-white" aria-hidden="true"></div>
 
-	<div class="inner inner--1000">
+	<div class="inner inner--1200">
 
 		<?php mzk_chapter_head('education', 'on-gold'); ?>
 
@@ -24,29 +27,21 @@ $mzk_title = $mzk_post ? get_the_title($mzk_post) : '';
 			<p class="jp-sm">溝の口で、子を育てる。</p>
 		</div>
 
-		<div class="edu-stage">
-			<img src="<?php echo esc_url($mzk_thumb); ?>" alt="" loading="lazy" decoding="async" />
-			<div class="veil" aria-hidden="true"></div>
-
-			<div class="edu-card-wrap">
-				<div class="edu-card">
-					<div class="badge" aria-hidden="true"><?php mzk_the_icon('mic', 'icon', 1.6); ?></div>
-					<div class="inner-body">
-						<p class="en f-en-italic">Special Interview</p>
-						<span class="wave-mark" aria-hidden="true"></span>
-						<h3>
-							<?php if ($mzk_post) : ?>
-								<a href="<?php echo esc_url($mzk_url); ?>"><?php echo esc_html($mzk_title); ?></a>
-							<?php else : ?>
-								高津区の子育て環境を<br />区役所へインタビュー
-							<?php endif; ?>
-						</h3>
-						<a href="<?php echo esc_url($mzk_url); ?>" class="btn btn-ink f-en-sans">
-							READ ARTICLE <?php mzk_the_icon('arrow-right'); ?>
-						</a>
-					</div>
-				</div>
-			</div>
+		<div class="edu-banner">
+			<a href="<?php echo esc_url($mzk_url); ?>">
+				<?php
+				mzk_the_banner_img(
+					'mzk_education_banner',
+					array(
+						'image/EDUCATION/banner.png',
+						'image/EDUCATION/banner.jpg',
+						'image/EDUCATION/banner.webp',
+					),
+					$mzk_alt,
+					1200
+				);
+				?>
+			</a>
 		</div>
 	</div>
 </section>

@@ -327,6 +327,59 @@ function mzk_itot_logo_uri() {
 	return '';
 }
 
+/**
+ * バナー画像の <img> を出力する。
+ *
+ * 優先順:
+ *   1. カスタマイザーで指定したメディア（添付ファイル ID。srcset 付きで出力）
+ *   2. テーマ内の画像ファイル（$files の順に探す）
+ *   3. プレースホルダー（img/noimage.svg）
+ *
+ * @param string   $mod_key カスタマイザーの設定キー。
+ * @param string[] $files   テーマルートからの相対パス（探す順）。
+ * @param string   $alt     代替テキスト。
+ * @param int      $width   表示幅の上限（px）。sizes 属性に使う。
+ * @return void
+ */
+function mzk_the_banner_img($mod_key, $files, $alt, $width = 1200) {
+	$attachment_id = (int) get_theme_mod($mod_key, 0);
+	if ($attachment_id && wp_attachment_is_image($attachment_id)) {
+		echo wp_get_attachment_image( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WP がエスケープ済み。
+			$attachment_id,
+			'full',
+			false,
+			array(
+				'alt'      => $alt,
+				'sizes'    => sprintf('(max-width: %1$dpx) 100vw, %1$dpx', $width),
+				'loading'  => 'lazy',
+				'decoding' => 'async',
+			)
+		);
+		return;
+	}
+
+	foreach ($files as $rel) {
+		$path = get_theme_file_path($rel);
+		if (!file_exists($path)) {
+			continue;
+		}
+		$size = @getimagesize($path); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- 破損ファイルでも落とさない。
+		printf(
+			'<img src="%1$s" alt="%2$s"%3$s loading="lazy" decoding="async" />',
+			esc_url(get_theme_file_uri($rel)),
+			esc_attr($alt),
+			($size && $size[0] && $size[1]) ? sprintf(' width="%d" height="%d"', $size[0], $size[1]) : ''
+		);
+		return;
+	}
+
+	printf(
+		'<img src="%1$s" alt="%2$s" width="800" height="560" loading="lazy" decoding="async" />',
+		esc_url(mzk_placeholder_uri()),
+		esc_attr($alt)
+	);
+}
+
 /* ==================================================================
    ロゴ
 ================================================================== */

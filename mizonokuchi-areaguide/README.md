@@ -99,7 +99,26 @@ wp-content/themes/mizonokuchi-areaguide/
 **外観 > カスタマイズ > トップページ**
 
 - Movie Gallery の YouTube 動画 ID（2 本）
+- EDUCATION バナー画像
 - エリアマップ画像（未設定ならダミーの SVG マップを表示）
+
+#### EDUCATION バナー
+
+06 EDUCATION は、**バナー画像 1 枚を記事へのリンクにするだけ**の構成です
+（ホバーでの拡大などの演出は付けていません）。表示幅は 1200px で、
+それ以下の画面では画面幅に合わせて縮みます。
+
+画像の指定方法は 2 通りで、優先順は次のとおりです。
+
+1. 「外観 > カスタマイズ > トップページ > EDUCATION バナー画像」
+   （メディアライブラリから指定。`srcset` が付くので Retina 表示に有利）
+2. テーマ内の `image/EDUCATION/banner.png`（`.jpg` / `.webp` も可）
+
+どちらも未設定の場合は `img/noimage.svg` が表示されます。
+元画像は表示幅の 2 倍（幅 2400px）を推奨します。
+
+リンク先は他のセクションと同じく `education-interview` → `education` の
+順に解決されます。
 
 ### 2-5. ロゴ
 
@@ -147,6 +166,7 @@ mizonokuchi-areaguide/
 | SP でナビが横スクロール | 1279px 以下はドロワー（チェックボックス方式、JS なしでも開閉可）／1280px 以上は横並び |
 | YouTube 埋め込み | `youtube-nocookie.com` + `loading="lazy"` |
 | セクションの文言・画像が固定 | 記事があれば記事のタイトル／抜粋／アイキャッチに差し替え |
+| 06 EDUCATION は写真＋カード重ねの構成 | バナー画像 1 枚のリンク（表示幅 1200px、演出なし） |
 
 ---
 
@@ -158,6 +178,7 @@ mizonokuchi-areaguide/
 | `image/GOURMET/**` | 添付 zip に写真が無かったため空です（`image/GOURMET/README.txt` 参照） |
 | `image/pr/01_dummy.jpg`, `image/MAZAKA/01_dummy.jpg` | ダミー画像 |
 | `image/map/area-map.jpg` | エリアマップ（未設置ならダミー SVG を表示） |
+| `image/EDUCATION/banner.png` | EDUCATION のバナー（未設置なら NO IMAGE を表示） |
 
 画像ファイルが無い場合は自動で `img/noimage.svg` に差し替わるため、
 レイアウトが崩れたり画像リンク切れになったりはしません。

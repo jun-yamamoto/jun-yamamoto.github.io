@@ -145,6 +145,27 @@ function mzk_customize_register($wp_customize) {
 			'description' => __('トップページの Movie Gallery で使う YouTube 動画 ID を設定します。', 'mizonokuchi'),
 		)
 	);
+	// EDUCATION セクションのバナー画像。
+	$wp_customize->add_setting(
+		'mzk_education_banner',
+		array(
+			'default'           => 0,
+			'sanitize_callback' => 'absint',
+		)
+	);
+	$wp_customize->add_control(
+		new WP_Customize_Media_Control(
+			$wp_customize,
+			'mzk_education_banner',
+			array(
+				'label'       => __('EDUCATION バナー画像', 'mizonokuchi'),
+				'description' => __('表示幅 1200px のバナーです。未設定の場合はテーマ内の image/EDUCATION/banner.png（または .jpg / .webp）を使います。', 'mizonokuchi'),
+				'section'     => 'mzk_front',
+				'mime_type'   => 'image',
+			)
+		)
+	);
+
 	// エリアマップ画像（未設定ならテーマ内のダミー SVG を表示）。
 	$wp_customize->add_setting(
 		'mzk_area_map',
