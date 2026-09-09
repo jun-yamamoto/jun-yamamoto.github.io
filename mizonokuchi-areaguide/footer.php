@@ -31,7 +31,7 @@ $mzk_pr_count = count($mzk_pr_items);
 		<?php if ($mzk_pr['heading']) : ?>
 			<div class="head-txt-foot"><?php echo esc_html($mzk_pr['heading']); ?></div>
 		<?php endif; ?>
-		<div class="pr-foot pr-foot--<?php echo (1 === $mzk_pr_count) ? 'single' : 'multi'; ?>">
+		<div class="pr-foot">
 			<div class="inner-foot">
 				<div class="base">
 					<?php foreach ($mzk_pr_items as $mzk_item) : ?>

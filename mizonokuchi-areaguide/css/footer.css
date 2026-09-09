@@ -37,7 +37,7 @@
   border:1px solid rgba(255,255,255,.10);
   padding:24px;
 }
-.pr-foot .inner + .inner{ margin-top:20px; }
+.pr-foot .inner + .inner{ margin-top:24px; }
 
 .pr-foot .pr-img{ display:block; flex-shrink:0; overflow:hidden; }
 .pr-foot .primg{
@@ -69,27 +69,19 @@
 .btn-pr::after{ content:"→"; font-size:12px; letter-spacing:0; }
 .btn-pr:hover{ background:#fff; }
 
-/* ---- 1件のとき：画像左・テキスト右の横並び ---- */
+/* ---- PC：画像とテキストの横並び。奇数=画像左／偶数=画像右で交互 ---- */
 @media (min-width:768px){
-  .pr-foot--single .inner{ flex-direction:row; align-items:center; gap:32px; padding:28px; }
-  .pr-foot--single .pr-img{ width:44%; }
-  .pr-foot--single .primg{ height:230px; }
-  .pr-foot--single .wrap-txt-pr{ flex:1; }
-}
-
-/* ---- 2件以上のとき：カードを並べる（件数に応じて自動で折り返す） ---- */
-.pr-foot--multi .base{ max-width:1100px; }
-@media (min-width:640px){
-  /* グリッドの gap が効くので、積み上げ時のマージンは外す */
-  .pr-foot--multi .inner + .inner{ margin-top:0; }
-  .pr-foot--multi .base{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-    gap:20px;
-    align-items:start;
+  .pr-foot .inner{
+    flex-direction:row;
+    align-items:center;
+    gap:36px;
+    padding:28px;
   }
-  .pr-foot--multi .primg{ height:180px; }
-  .pr-foot--multi .tit-pr{ font-size:19px; }
+  .pr-foot .inner:nth-child(even){ flex-direction:row-reverse; }
+
+  .pr-foot .pr-img{ width:44%; }
+  .pr-foot .primg{ height:230px; }
+  .pr-foot .wrap-txt-pr{ flex:1; min-width:0; }
 }
 
 /* ---------- サイトナビ（フッター） ---------- */
