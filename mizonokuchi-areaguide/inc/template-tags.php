@@ -381,6 +381,95 @@ function mzk_the_banner_img($mod_key, $files, $alt, $width = 1200) {
 }
 
 /* ==================================================================
+   フッターの PR 枠
+================================================================== */
+
+/**
+ * inc/footer-pr.php を読み込み、正規化して返す。
+ *
+ * @return array{heading:string, items:array<int,array<string,string>>}
+ */
+function mzk_footer_pr() {
+	static $cache = null;
+	if (null !== $cache) {
+		return $cache;
+	}
+
+	$data = array(
+		'heading' => '',
+		'items'   => array(),
+	);
+
+	$file = get_theme_file_path('inc/footer-pr.php');
+	if (file_exists($file)) {
+		$loaded = require $file;
+		if (is_array($loaded)) {
+			$data['heading'] = isset($loaded['heading']) ? (string) $loaded['heading'] : '';
+			$data['items']   = (isset($loaded['items']) && is_array($loaded['items'])) ? $loaded['items'] : array();
+		}
+	}
+
+	$items = array();
+	foreach ($data['items'] as $item) {
+		if (!is_array($item)) {
+			continue;
+		}
+		$item = wp_parse_args(
+			$item,
+			array(
+				'sub_title' => '',
+				'title'     => '',
+				'text'      => '',
+				'url'       => '',
+				'image'     => '',
+				'btn'       => 'MORE',
+				'target'    => '_blank',
+			)
+		);
+
+		// 物件名が空の項目は書きかけとみなして出さない。
+		if ('' === trim((string) $item['title'])) {
+			continue;
+		}
+
+		$item['image']  = mzk_resolve_image_src((string) $item['image']);
+		$item['target'] = ('_blank' === $item['target']) ? '_blank' : '';
+		$items[]        = $item;
+	}
+
+	$data['items'] = $items;
+
+	/**
+	 * PR 枠の内容を差し替えるためのフィルター。
+	 *
+	 * @param array $data
+	 */
+	$cache = apply_filters('mzk_footer_pr', $data);
+
+	return $cache;
+}
+
+/**
+ * 画像指定を URL に解決する。
+ *
+ * 絶対 URL はそのまま、それ以外はテーマ内の相対パスとして扱う。
+ * 空・ファイルなしの場合はプレースホルダーを返す。
+ *
+ * @param string $src 画像の指定。
+ * @return string URL。
+ */
+function mzk_resolve_image_src($src) {
+	$src = trim((string) $src);
+	if ('' === $src) {
+		return mzk_placeholder_uri();
+	}
+	if (preg_match('#^(https?:)?//#i', $src)) {
+		return $src;
+	}
+	return mzk_img($src);
+}
+
+/* ==================================================================
    ロゴ
 ================================================================== */
 

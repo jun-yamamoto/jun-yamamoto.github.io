@@ -7,7 +7,11 @@
 
 defined('ABSPATH') || exit;
 
-$mzk_url = mzk_link('property', 'archive', mzk_footer_option('mzk_pr_url'));
+// property スラッグが無い場合は、フッター PR の 1 件目のリンク先にフォールバックする。
+$mzk_pr_first = mzk_footer_pr();
+$mzk_pr_first = isset($mzk_pr_first['items'][0]['url']) ? $mzk_pr_first['items'][0]['url'] : '';
+
+$mzk_url = mzk_link('property', 'archive', $mzk_pr_first);
 if (!$mzk_url) {
 	$mzk_url = home_url('/');
 }

@@ -9,17 +9,17 @@
  *                          プライバシーポリシー / 運営会社 / powered by itot
  *   .pTop                … ページトップへ戻るボタン
  *
- * 各項目は「外観 > カスタマイズ > フッター（PR枠・コピーライト）」で編集できる。
+ * PR 枠の中身は inc/footer-pr.php を直接書き換えて設定する（件数は自由）。
+ * コピーライト行と各リンクは「外観 > カスタマイズ > フッター」で編集できる。
  *
  * @package mizonokuchi
  */
 
 defined('ABSPATH') || exit;
 
-$mzk_pr_title = mzk_footer_option('mzk_pr_title');
-$mzk_pr_url   = mzk_footer_option('mzk_pr_url');
-$mzk_pr_image = mzk_footer_option('mzk_pr_image');
-$mzk_has_pr   = ('' !== trim($mzk_pr_title) || '' !== trim($mzk_pr_url));
+$mzk_pr       = mzk_footer_pr();
+$mzk_pr_items = $mzk_pr['items'];
+$mzk_pr_count = count($mzk_pr_items);
 ?>
 </div><!-- /#contents -->
 
@@ -27,35 +27,39 @@ $mzk_has_pr   = ('' !== trim($mzk_pr_title) || '' !== trim($mzk_pr_url));
 
 <footer class="footer-style">
 
-	<?php if ($mzk_has_pr) : ?>
-		<div class="head-txt-foot"><?php echo esc_html(mzk_footer_option('mzk_pr_heading')); ?></div>
-		<div class="pr-foot">
+	<?php if ($mzk_pr_count) : ?>
+		<?php if ($mzk_pr['heading']) : ?>
+			<div class="head-txt-foot"><?php echo esc_html($mzk_pr['heading']); ?></div>
+		<?php endif; ?>
+		<div class="pr-foot pr-foot--<?php echo (1 === $mzk_pr_count) ? 'single' : 'multi'; ?>">
 			<div class="inner-foot">
 				<div class="base">
-					<div class="inner">
-						<?php if ($mzk_pr_url) : ?>
-							<a href="<?php echo esc_url($mzk_pr_url); ?>" target="_blank" rel="noopener" class="pr-img">
-								<img src="<?php echo esc_url($mzk_pr_image ? $mzk_pr_image : mzk_img('image/pr/01_dummy.jpg')); ?>" alt="<?php echo esc_attr($mzk_pr_title); ?>" class="primg" loading="lazy" decoding="async" />
-							</a>
-						<?php else : ?>
-							<span class="pr-img">
-								<img src="<?php echo esc_url($mzk_pr_image ? $mzk_pr_image : mzk_img('image/pr/01_dummy.jpg')); ?>" alt="<?php echo esc_attr($mzk_pr_title); ?>" class="primg" loading="lazy" decoding="async" />
-							</span>
-						<?php endif; ?>
+					<?php foreach ($mzk_pr_items as $mzk_item) : ?>
+						<div class="inner">
+							<?php if ($mzk_item['url']) : ?>
+								<a href="<?php echo esc_url($mzk_item['url']); ?>"<?php echo $mzk_item['target'] ? ' target="_blank" rel="noopener"' : ''; ?> class="pr-img">
+									<img src="<?php echo esc_url($mzk_item['image']); ?>" alt="<?php echo esc_attr($mzk_item['title']); ?>" class="primg" loading="lazy" decoding="async" />
+								</a>
+							<?php else : ?>
+								<span class="pr-img">
+									<img src="<?php echo esc_url($mzk_item['image']); ?>" alt="<?php echo esc_attr($mzk_item['title']); ?>" class="primg" loading="lazy" decoding="async" />
+								</span>
+							<?php endif; ?>
 
-						<div class="wrap-txt-pr">
-							<?php if (mzk_footer_option('mzk_pr_sub_title')) : ?>
-								<div class="sub-tit-pr"><?php echo esc_html(mzk_footer_option('mzk_pr_sub_title')); ?></div>
-							<?php endif; ?>
-							<div class="tit-pr"><?php echo esc_html($mzk_pr_title); ?></div>
-							<?php if (mzk_footer_option('mzk_pr_text')) : ?>
-								<div class="txt-pr"><?php echo esc_html(mzk_footer_option('mzk_pr_text')); ?></div>
-							<?php endif; ?>
-							<?php if ($mzk_pr_url) : ?>
-								<a href="<?php echo esc_url($mzk_pr_url); ?>" target="_blank" rel="noopener" class="btn-pr"><span><?php echo esc_html(mzk_footer_option('mzk_pr_btn_label')); ?></span></a>
-							<?php endif; ?>
+							<div class="wrap-txt-pr">
+								<?php if ($mzk_item['sub_title']) : ?>
+									<div class="sub-tit-pr"><?php echo esc_html($mzk_item['sub_title']); ?></div>
+								<?php endif; ?>
+								<div class="tit-pr"><?php echo esc_html($mzk_item['title']); ?></div>
+								<?php if ($mzk_item['text']) : ?>
+									<div class="txt-pr"><?php echo esc_html($mzk_item['text']); ?></div>
+								<?php endif; ?>
+								<?php if ($mzk_item['url'] && $mzk_item['btn']) : ?>
+									<a href="<?php echo esc_url($mzk_item['url']); ?>"<?php echo $mzk_item['target'] ? ' target="_blank" rel="noopener"' : ''; ?> class="btn-pr"><span><?php echo esc_html($mzk_item['btn']); ?></span></a>
+								<?php endif; ?>
+							</div>
 						</div>
-					</div>
+					<?php endforeach; ?>
 				</div>
 			</div>
 		</div>

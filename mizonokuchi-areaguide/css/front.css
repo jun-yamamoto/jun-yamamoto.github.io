@@ -201,9 +201,21 @@
 .section-lead--seal .en{ color:var(--seal); }
 .section-lead--white .en{ color:#fff; }
 
-.gourmet-block{ align-items:center; margin-bottom:160px; position:relative; }
-.gourmet-block:last-child{ margin-bottom:0; }
-@media (min-width:768px){ .gourmet-block{ margin-bottom:224px; } }
+/* ブロック間だけに余白を持たせる（最後のブロックの後ろは VIEW MORE ボタンが受ける） */
+.gourmet-block{ align-items:center; position:relative; }
+.gourmet-block + .gourmet-block{ margin-top:160px; }
+@media (min-width:768px){ .gourmet-block + .gourmet-block{ margin-top:224px; } }
+
+/* グルメコーナー全体へ誘導するボタン */
+.gourmet-more{
+  margin-top:96px;
+  padding-top:56px;
+  border-top:1px solid rgba(255,255,255,.15);
+  text-align:center;
+}
+@media (min-width:768px){
+  .gourmet-more{ margin-top:128px; padding-top:72px; }
+}
 
 .gourmet-body{ position:relative; z-index:30; }
 .gourmet-no{ display:flex; align-items:center; gap:12px; margin-bottom:24px; }
@@ -223,6 +235,7 @@
   font-size:26px; line-height:1.6; letter-spacing:.08em; margin-bottom:24px;
 }
 .gourmet-body p{ font-size:14px; line-height:2; color:rgba(255,255,255,.7); margin-bottom:40px; }
+.gourmet-body p:last-child{ margin-bottom:0; }
 @media (min-width:768px){ .gourmet-title{ font-size:32px; } }
 
 .gourmet-collage{ position:relative; }

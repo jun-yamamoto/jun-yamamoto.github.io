@@ -17,13 +17,6 @@ defined('ABSPATH') || exit;
  */
 function mzk_footer_defaults() {
 	return array(
-		'mzk_pr_heading'   => 'PR：新築分譲マンションをご紹介',
-		'mzk_pr_image'     => '',
-		'mzk_pr_sub_title' => '溝の口に、新しい暮らしの起点を',
-		'mzk_pr_title'     => '（物件名を設定してください）',
-		'mzk_pr_text'      => '東急田園都市線・大井町線「溝の口」駅／JR南武線「武蔵溝ノ口」駅',
-		'mzk_pr_url'       => '',
-		'mzk_pr_btn_label' => 'MORE',
 		'mzk_copyright'    => 'Copyright &copy; COCOLOMACHI Inc. All rights reserved.',
 		'mzk_contact_url'  => '',
 		'mzk_privacy_url'  => 'http://itot.jp/pp.html',
@@ -56,19 +49,13 @@ function mzk_customize_register($wp_customize) {
 	$wp_customize->add_section(
 		'mzk_footer',
 		array(
-			'title'       => __('フッター（PR枠・コピーライト）', 'mizonokuchi'),
+			'title'       => __('フッター', 'mizonokuchi'),
 			'priority'    => 130,
-			'description' => __('itot 共通フッターの PR 枠とコピーライト行を設定します。「物件名」と「リンク先 URL」の両方が空の場合、PR 枠は表示されません。', 'mizonokuchi'),
+			'description' => __('コピーライト行と各リンクを設定します。PR 枠の中身（件数・物件名・画像など）は、テーマ内の inc/footer-pr.php を直接書き換えてください。', 'mizonokuchi'),
 		)
 	);
 
 	$fields = array(
-		'mzk_pr_heading'   => array(__('PR 枠の見出し', 'mizonokuchi'), 'text'),
-		'mzk_pr_sub_title' => array(__('PR 枠のキャッチコピー', 'mizonokuchi'), 'text'),
-		'mzk_pr_title'     => array(__('PR 枠の物件名', 'mizonokuchi'), 'text'),
-		'mzk_pr_text'      => array(__('PR 枠の説明文', 'mizonokuchi'), 'textarea'),
-		'mzk_pr_url'       => array(__('PR 枠のリンク先 URL', 'mizonokuchi'), 'url'),
-		'mzk_pr_btn_label' => array(__('PR 枠のボタン文言', 'mizonokuchi'), 'text'),
 		'mzk_copyright'    => array(__('コピーライト表記', 'mizonokuchi'), 'text'),
 		'mzk_contact_url'  => array(__('お問い合わせ URL', 'mizonokuchi'), 'url'),
 		'mzk_privacy_url'  => array(__('プライバシーポリシー URL', 'mizonokuchi'), 'url'),
@@ -96,25 +83,6 @@ function mzk_customize_register($wp_customize) {
 			)
 		);
 	}
-
-	// PR 画像。
-	$wp_customize->add_setting(
-		'mzk_pr_image',
-		array(
-			'default'           => '',
-			'sanitize_callback' => 'esc_url_raw',
-		)
-	);
-	$wp_customize->add_control(
-		new WP_Customize_Image_Control(
-			$wp_customize,
-			'mzk_pr_image',
-			array(
-				'label'   => __('PR 枠の画像', 'mizonokuchi'),
-				'section' => 'mzk_footer',
-			)
-		)
-	);
 
 	// フッターの itot ロゴ。
 	$wp_customize->add_setting(
