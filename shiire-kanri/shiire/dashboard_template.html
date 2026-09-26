@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>仕入台帳ダッシュボード</title>
+<style>
+  :root { --ink:#241133; --muted:#6b5a7a; --bg:#faf7fc; --card:#fff; --line:#e6dcef;
+          --accent:#7b1fa2; --deep:#4a148c; --stripe:#f3e5f5; --ret:#c62828; --rep:#e65100; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:Meiryo, "Hiragino Sans", system-ui, sans-serif; color:var(--ink); background:var(--bg); }
+  header { background:var(--deep); color:#fff; padding:16px 20px; }
+  header h1 { margin:0; font-size:18px; }
+  main { max-width:1200px; margin:0 auto; padding:16px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:16px; }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px; }
+  .kpi .l { font-size:12px; color:var(--muted); }
+  .kpi .v { font-size:22px; font-weight:bold; font-variant-numeric:tabular-nums; }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px; margin-bottom:16px; }
+  .bars { display:grid; grid-template-columns:repeat(12,1fr); gap:6px; align-items:end; height:160px; }
+  .bar { background:var(--accent); border-radius:3px 3px 0 0; min-height:1px; cursor:pointer; }
+  .bar.sel { background:var(--deep); }
+  .blabels { display:grid; grid-template-columns:repeat(12,1fr); gap:6px; font-size:11px; color:var(--muted); text-align:center; }
+  .filters { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+  select, input { font:inherit; font-size:13px; padding:4px 6px; border:1px solid var(--line); border-radius:4px; }
+  .tbl { overflow-x:auto; }
+  table { border-collapse:collapse; width:100%; font-size:12px; }
+  th { background:var(--accent); color:#fff; padding:6px; text-align:left; white-space:nowrap; }
+  td { padding:5px 6px; border-bottom:1px solid var(--line); vertical-align:top; }
+  tr:nth-child(even) td { background:var(--stripe); }
+  td.n { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  tr.ret td { color:var(--ret); text-decoration:line-through; }
+  tr.rep td { color:var(--rep); }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<header><h1>仕入台帳ダッシュボード</h1></header>
+<main>
+  <div class="kpis" id="kpis"></div>
+  <div class="panel">
+    <div class="bars" id="bars"></div>
+    <div class="blabels" id="blabels"></div>
+  </div>
+  <div class="panel">
+    <div class="filters">
+      <select id="fMonth"><option value="">全月</option></select>
+      <select id="fType"><option value="">全タイプ</option></select>
+      <input id="fText" placeholder="商品名・店舗名で検索">
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>日付</th><th>商品名</th><th>金額</th><th>送料</th><th>合計</th><th>店舗</th><th>タイプ</th><th>インボイス</th><th>備考</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+  </div>
+</main>
+<script>
+const ENTRIES=[];
+const yen = n => "¥" + n.toLocaleString("ja-JP");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $ = id => document.getElementById(id);
+const types = [...new Set(ENTRIES.map(e => e.type).filter(Boolean))];
+for (let m = 1; m <= 12; m++) $("fMonth").add(new Option(m + "月", m));
+types.forEach(t => $("fType").add(new Option(t, t)));
+
+function render() {
+  const fm = $("fMonth").value, ft = $("fType").value, q = $("fText").value.trim().toLowerCase();
+  const list = ENTRIES.filter(e => (!fm || e.month == fm) && (!ft || e.type === ft)
+    && (!q || (e.name + " " + e.shop).toLowerCase().includes(q)));
+  const valid = list.filter(e => !e.returned);
+  const sum = k => valid.reduce((a, e) => a + e[k], 0);
+  $("kpis").innerHTML = [["件数", valid.length + "件"], ["金額", yen(sum("price"))], ["送料", yen(sum("shipping"))],
+    ["合計", yen(sum("total"))], ["返品", list.length - valid.length + "件"]]
+    .map(([l, v]) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div></div>`).join("");
+
+  const monthly = Array.from({length: 12}, (_, i) => ENTRIES.filter(e => e.month === i + 1 && !e.returned)
+    .reduce((a, e) => a + e.total, 0));
+  const max = Math.max(1, ...monthly);
+  $("bars").innerHTML = monthly.map((v, i) =>
+    `<div class="bar${fm == i + 1 ? " sel" : ""}" data-m="${i + 1}" title="${i + 1}月 ${yen(v)}" style="height:${v / max * 100}%"></div>`).join("");
+  $("blabels").innerHTML = monthly.map((_, i) => `<div>${i + 1}月</div>`).join("");
+
+  $("rows").innerHTML = list.map(e => `<tr class="${e.returned ? "ret" : e.repair ? "rep" : ""}">
+    <td>${esc(e.date)}</td>
+    <td>${e.evidence.startsWith("http") ? `<a href="${esc(e.evidence)}" target="_blank" rel="noopener">${esc(e.name)}</a>` : esc(e.name)}</td>
+    <td class="n">${yen(e.price)}</td><td class="n">${yen(e.shipping)}</td><td class="n">${yen(e.total)}</td>
+    <td>${esc(e.shop)}</td><td>${esc(e.type)}</td><td>${esc(e.invoice)}</td>
+    <td>${esc(e.note)}${e.junk ? " [ジャンク]" : ""}</td></tr>`).join("");
+}
+$("bars").addEventListener("click", ev => {
+  const m = ev.target.dataset.m; if (!m) return;
+  $("fMonth").value = $("fMonth").value === m ? "" : m; render();
+});
+["fMonth", "fType", "fText"].forEach(id => $(id).addEventListener("input", render));
+render();
+</script>
+</body>
+</html>
