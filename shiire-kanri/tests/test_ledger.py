@@ -191,3 +191,11 @@ def test_screenshot_blank_check(tmp_path):
     img.putpixel((5, 5), (0, 0, 0))
     img.save(text)
     assert is_blank(white) and not is_blank(text)
+
+
+def test_freetext_separated_labels():
+    e = freetext.parse_line("オールドレンズ愛好家 SMC PENTAX-M 50mm F1.4 仕入れ 8,280円 送料0円 1/4")
+    assert (e.shop, e.name, e.price, e.shipping, e.date) == (
+        "オールドレンズ愛好家", "SMC PENTAX-M 50mm F1.4", 8280, 0, date(2026, 1, 4))
+    e = freetext.parse_line("キタムラ F100 仕入 38500 送料 1,000円 7/11")
+    assert (e.name, e.price, e.shipping) == ("F100", 38500, 1000)

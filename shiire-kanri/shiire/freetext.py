@@ -15,6 +15,10 @@ COUPON_RE = re.compile(r"^(?:クーポン|coupon)[:：]?-?(\d[\d,]*)円?$", re.I
 INVOICE_RE = re.compile(r"^T\d{13}$")
 BARE_PRICE_RE = re.compile(r"^[¥￥]?(\d[\d,]*)円?$")
 FLAGS = {"返品": "returned", "修理": "repair", "ジャンク": "junk"}
+# 「仕入れ 8,280円」「送料 0円」のように数値と離れて書かれたラベル
+LABELS = {"仕入": "price", "仕入れ": "price", "金額": "price", "価格": "price", "購入": "price",
+          "送料": "shipping", "クーポン": "coupon"}
+NUM_RE = re.compile(r"^-?[¥￥]?(\d[\d,]*)円?$")
 PAYMENTS = {"amex": "AMEX", "paypay": "PAYPAY", "paypayカード": "PAYPAY", "現金": "現金"}
 
 
@@ -31,8 +35,16 @@ def parse_line(text: str, year: int = config.LEDGER_YEAR, base=None) -> Entry:
     name_parts: list[str] = []
     fields: dict = {}
     bare_prices: list[int] = []
+    pending: str | None = None
     for tok in rest:
-        if m := DATE_RE.match(tok):
+        if pending and (m := NUM_RE.match(tok)):
+            fields[pending] = _num(m[1])
+            pending = None
+            continue
+        pending = None
+        if tok.rstrip(":：") in LABELS:
+            pending = LABELS[tok.rstrip(":：")]
+        elif m := DATE_RE.match(tok):
             fields["date"] = date(int(m[1]) if m[1] else year, int(m[2]), int(m[3]))
         elif m := PRICE_RE.match(tok):
             fields["price"] = _num(m[1])
